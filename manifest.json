@@ -1,0 +1,34 @@
+{
+    "manifest_version": 3,
+    "name": "CodeAtlas",
+    "version": "0.2.0",
+    "description": "Sync your accepted LeetCode solutions to GitHub, controlled from your browser.",
+    "homepage_url": "https://github.com/Cir9no-0001/CodeAtlas-Extension",
+    "minimum_chrome_version": "111",
+
+    "icons": {
+        "16": "assets/icons/icon16.png",
+        "48": "assets/icons/icon48.png",
+        "128": "assets/icons/icon128.png"
+    },
+
+    "action": {
+        "default_title": "Open CodeAtlas",
+        "default_icon": {
+            "16": "assets/icons/icon16.png",
+            "48": "assets/icons/icon48.png"
+        }
+    },
+
+    "background": {
+        "service_worker": "src/background.js",
+        "type": "module"
+    },
+
+    "permissions": ["storage", "cookies", "alarms"],
+    "host_permissions": [
+        "https://api.github.com/*",
+        "https://leetcode.com/*",
+        "https://raw.githubusercontent.com/*"
+    ]
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeAtlas</title>
+    <link rel="stylesheet" href="dashboard.css" />
+</head>
+
+<body>
+    <div id="consent-modal" class="consent-modal" hidden>
+        <div class="consent-box">
+            <div id="consent-intro">
+                <p>Before using CodeAtlas, please review our
+                    <a href="#" data-doc="privacy" class="legal-link-inline">Privacy Policy</a> and
+                    <a href="#" data-doc="terms" class="legal-link-inline">Terms of Service</a>.
+                </p>
+                <button id="consent-accept-btn">I Agree</button>
+            </div>
+            <div id="consent-doc-view" class="legal-doc" hidden></div>
+            <button id="consent-back-btn" class="consent-doc-back" hidden>← Back</button>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <button class="nav-tab active" data-panel="log">Log</button>
+            <button class="nav-tab" data-panel="database">Database</button>
+            <button class="nav-tab" data-panel="changelog">Changelog</button>
+            <button class="nav-tab" data-panel="legal">Legal</button>
+        </div>
+        <div class="navbar-right">
+            <button class="nav-tab nav-tab-icon" data-panel="settings" aria-label="Settings">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-layout">
+        <aside class="sync-panel">
+            <button id="power-button" class="power-button" aria-label="Run sync"></button>
+
+            <div id="sync-progress" class="sync-progress" hidden>0%</div>
+
+            <div class="sync-meta">
+                <p id="last-synced">Last synced: never</p>
+
+                <label for="sync-interval">Auto-sync every</label>
+                <select id="sync-interval">
+                    <option value="off">Off</option>
+                    <option value="15">15 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="1440">24 hours</option>
+                </select>
+
+                <select id="repo-select" hidden>
+                    <option value="">Select a repo...</option>
+                </select>
+                <p id="leetcode-status">LeetCode: checking...</p>
+                <p id="github-status">GitHub: checking...</p>
+            </div>
+        </aside>
+
+        <section class="content-panel">
+            <div class="panel" id="panel-log">
+                <header class="log-header">
+                    <span class="log-col log-col-date">Date</span>
+                    <span class="log-col log-col-time">Time</span>
+                    <span class="log-col log-col-status">Status</span>
+                    <button id="clear-log-btn" class="clear-log-btn">Clear Log</button>
+                </header>
+                <ol id="log-list" class="log-list"></ol>
+            </div>
+
+            <div class="panel" id="panel-changelog" hidden>
+                <div id="changelog-list" class="changelog-list">Loading changelog...</div>
+            </div>
+
+            <div class="panel" id="panel-database" hidden>
+                <div class="empty-state">
+                    <h2>404: Database Not Found</h2>
+                    <p>It's still compiling. It's been compiling since September.</p>
+                    <p class="empty-state-sub">Coming soon: browse every solved problem by difficulty, with notes.</p>
+                </div>
+            </div>
+
+            <div class="panel" id="panel-legal" hidden>
+                <div class="legal-layout">
+                    <nav class="legal-nav">
+                        <button class="legal-link active" data-doc="privacy">Privacy Policy</button>
+                        <button class="legal-link" data-doc="terms">Terms of Service</button>
+                        <button class="legal-link" data-doc="eula">End User License Agreement</button>
+                        <button class="legal-link" data-doc="dmca">DMCA / Copyright Policy</button>
+                    </nav>
+                    <article id="legal-doc-view" class="legal-doc"></article>
+                </div>
+            </div>
+
+            <div class="panel" id="panel-settings" hidden>
+                <section class="settings-section">
+                    <h2 class="settings-section-title">User Customization</h2>
+                    <div class="customization-layout">
+                        <div class="settings-box customization-left">
+                            <h3>Default Themes</h3>
+                            <div class="theme-slider" id="theme-slider">
+                                <button class="theme-option active" data-theme="default">Default</button>
+                                <button class="theme-option" data-theme="day">Day</button>
+                                <button class="theme-option" data-theme="night">Night</button>
+                            </div>
+
+                            <h3>Custom Themes</h3>
+                            <div class="coming-soon" data-message="Still mixing the paint">
+                                <select id="custom-theme-select" disabled>
+                                    <option>Ocean</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="settings-box customization-right">
+                            <h3>Background</h3>
+                            <p class="background-hint">Recommended: 1920×1080 (16:9)</p>
+                            <div id="background-preview" class="background-preview">
+                                <span class="background-placeholder">No background set</span>
+                                <input type="file" id="background-upload" accept="image/*" hidden />
+                            </div>
+                            <div class="background-actions">
+                                <button id="background-save-btn" class="settings-btn">Save</button>
+                                <button id="background-reset-btn" class="settings-btn">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-section">
+                    <h2 class="settings-section-title">Account Info</h2>
+                    <div class="settings-box account-box coming-soon"
+                         data-message="Account settings are on a coffee break until the backend ships.">
+                        <div class="account-row">
+                            <span class="account-label">Username</span>
+                            <span class="account-value">—</span>
+                            <button class="account-edit-btn" disabled>Edit</button>
+                        </div>
+                        <div class="account-row">
+                            <span class="account-label">Email</span>
+                            <span class="account-value">—</span>
+                            <button class="account-edit-btn" disabled>Edit</button>
+                        </div>
+                        <div class="account-row">
+                            <span class="account-label">Phone Number</span>
+                            <span class="account-value">—</span>
+                            <button class="account-edit-btn" disabled>Edit</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-section">
+                    <h2 class="settings-section-title">Security</h2>
+                    <div class="settings-box account-box coming-soon"
+                         data-message="MFA coming soon. Your password is currently protected by not existing yet.">
+                        <div class="account-row">
+                            <span class="account-label">Password</span>
+                            <span class="account-value">••••••••</span>
+                            <button class="account-edit-btn" disabled>Edit</button>
+                        </div>
+                        <div class="account-row">
+                            <span class="account-label">Multi-Factor Authentication</span>
+                            <span class="account-value">Not set up</span>
+                            <button class="account-edit-btn" disabled>Set MFA</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+        </section>
+
+    </main>
+
+    <script type="module" src="main.js"></script>
+
+</body>
+</html>
