@@ -274,6 +274,8 @@ If Chrome stops the worker mid-run, it resumes polling the next time it wakes. O
 
 ## License
 
-Copyright (c) 2026 Stanley Chen. All Rights Reserved.
+This project is source-available but not open source. Copyright (c) 2026 Stanley Chen - All Rights Reserved.
 
-The source code is publicly viewable for evaluation and educational purposes only. See [LICENSE](LICENSE) for permitted use.
+You may clone, fork, and run this project locally for personal, non-commercial evaluation, testing, and code review. Commercial use, redistribution, hosting as a service, and incorporation into other projects are not permitted. See [LICENSE](LICENSE) for the full terms.
+
+Third-party libraries in `vendor/` remain under their own licenses.
